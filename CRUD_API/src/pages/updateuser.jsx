@@ -1,12 +1,22 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect, lazy} from 'react';
+//ใช้ในการดึง id
+import { useParams } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import { Grid, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-export default function SimpleContainer() {
-  
+export default function UserUpdate() {
+    
+  //ดึงค่าภายในID
+    const {id} = useParams();
+    
+    useEffect(()=>{
+
+        },[id])
+
+
   //นำค่ามาจาก postman ที่เป็นjsonเพื่อดำเนินการevent
   const handleSubmit = event=>{
     
@@ -74,27 +84,27 @@ fetch("https://www.melivecode.com/api/users", requestOptions)
         <Grid container spacing={2}>
           <Grid item xs={12}>
           <TextField id="fname" label="First Name" variant="outlined" fullWidth required 
-          onChange={(e)=>setFname(e.target.value)}        
+          onChange={(e)=>setFname(e.target.value)} value={fname}    
           />
           </Grid>
           <Grid item xs={12} >
           <TextField id="lname" label="Last Name" variant="outlined" fullWidth required 
-          onChange={(e)=>setLname(e.target.value)}
+          onChange={(e)=>setLname(e.target.value)} value={lname}
           />
           </Grid>
           <Grid item xs={12} >
           <TextField id="email" label="Email" variant="outlined" fullWidth required 
-          onChange={(e)=>setEmail(e.target.value)}
+          onChange={(e)=>setEmail(e.target.value)} value={email}
           />
           </Grid>
           <Grid item xs={12} sm={6}>
           <TextField id="username" label="Username" variant="outlined" fullWidth required 
-          onChange={(e)=>setUsername(e.target.value)}
+          onChange={(e)=>setUsername(e.target.value)} value={username}
           />
           </Grid>
           <Grid item xs={12} sm={6}>
           <TextField id="avatar" label="Avatar" variant="outlined" fullWidth required 
-          onChange={(e)=>setAvatar(e.target.value)}
+          onChange={(e)=>setAvatar(e.target.value)} value={avatar}
           />
           </Grid>
 

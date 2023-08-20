@@ -17,6 +17,9 @@ import Avatar from '@mui/material/Avatar';
 // Link import
 import Link from '@mui/material/Link';
 
+//ButtonGroup Function
+import ButtonGroup from '@mui/material/ButtonGroup';
+
 
 
 
@@ -26,10 +29,13 @@ import Link from '@mui/material/Link';
 export default function SimpleContainer() {
 
   //การดึงข้อมูลของ API
-
   const [items, setItem] = useState([]);
   
   useEffect(()=>{
+      UserGet()
+    },[])
+    
+    const UserGet  =()=>{
       fetch("https://www.melivecode.com/api/users")
       .then(res=>res.json())
       .then(
@@ -37,7 +43,40 @@ export default function SimpleContainer() {
           setItem(result)
         })
       )
-    },[])
+    }
+
+    //Del Funtion
+    const UserDelte = id =>{
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+       "id":id
+      });
+
+      var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("https://www.melivecode.com/api/users/delete", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          alert(result['message'])
+          if(result['status']==='ok'){
+            UserGet()
+          }
+        })
+        .catch(error => console.log('error', error));
+
+
+
+
+    }
+
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -61,7 +100,8 @@ export default function SimpleContainer() {
             <TableCell align="center">Avatar</TableCell>
             <TableCell align="right">First Name</TableCell>
             <TableCell align="center">Last Name</TableCell>
-            <TableCell align="right">EW</TableCell>
+            <TableCell align="right">Email</TableCell>
+            <TableCell align="right">Action</TableCell>
             
           </TableRow>
         </TableHead>
@@ -82,6 +122,12 @@ export default function SimpleContainer() {
               <TableCell align="right">{row.fname}</TableCell>
               <TableCell align="center">{row.lname}</TableCell>
               <TableCell align="right">{row.username}</TableCell>
+              <TableCell align="right">
+              <ButtonGroup variant="text" aria-label="text button group">
+                  <Button onClick={()=>UserDelte(row.id)}>Del</Button>
+                  <Button>Edit</Button>
+              </ButtonGroup>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
