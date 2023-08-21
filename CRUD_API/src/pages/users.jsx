@@ -19,6 +19,7 @@ import Link from '@mui/material/Link';
 
 //ButtonGroup Function
 import ButtonGroup from '@mui/material/ButtonGroup';
+import UserUpdate from './updateuser';
 
 
 
@@ -44,6 +45,12 @@ export default function SimpleContainer() {
         })
       )
     }
+
+    //Edit Function
+    const UserUpdate = id =>{
+      window.location = '/update/'+id
+    }
+
 
     //Del Funtion
     const UserDelte = id =>{
@@ -125,7 +132,7 @@ export default function SimpleContainer() {
               <TableCell align="right">
               <ButtonGroup variant="text" aria-label="text button group">
                   <Button onClick={()=>UserDelte(row.id)}>Del</Button>
-                  <Button>Edit</Button>
+                  <Button onClick={()=>UserUpdate(row.id)}>Edit</Button>
               </ButtonGroup>
               </TableCell>
             </TableRow>

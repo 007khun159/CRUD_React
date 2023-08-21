@@ -9,13 +9,32 @@ import Button from '@mui/material/Button';
 
 export default function UserUpdate() {
     
-  //ดึงค่าภายในID
+
+  // Update Function
+  //ดึงค่าภายในID แสดงอยู่ใน Promt
     const {id} = useParams();
-    
     useEffect(()=>{
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+      
+      fetch("https://www.melivecode.com/api/users/"+id, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          //ทำการเรียกข้อมูบมาตรวจเช็คและทำการเก็บค่าจาก Value ={}
+          if (result['status']==="ok"){
+            setFname(result['user']['fname'])
+            setLname(result['user']['lname'])
+            setUsername(result['user']['username'])
+            setEmail(result['user']['email'])
+            setAvatar(result['user']['avatar'])
 
-        },[id])
-
+          }
+        })
+        .catch(error => console.log('error', error));
+    },[id])
+    
 
   //นำค่ามาจาก postman ที่เป็นjsonเพื่อดำเนินการevent
   const handleSubmit = event=>{
@@ -26,6 +45,7 @@ export default function UserUpdate() {
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
+      "id": id,
       "fname": fname,
       "lname": lname,
       "username": username,
@@ -35,17 +55,18 @@ export default function UserUpdate() {
     });
 
     var requestOptions = {
-      method: 'POST',
+      method: 'PUT',
       headers: myHeaders,
       body: raw,
       redirect: 'follow'
     }; 
     //สำหรับการสร้าง Api
-    fetch("https://www.melivecode.com/api/users/create", requestOptions)
+    fetch("https://www.melivecode.com/api/users/update", requestOptions)
     .then(response => response.json())
      .then(result => {
     alert(result['message'])
     if(result['status'] === 'OK'){
+      //ทำการเปลี่ยน Path ปลาทาง
       window.location.href= '/'
     }
   })
@@ -111,7 +132,7 @@ fetch("https://www.melivecode.com/api/users", requestOptions)
           {/* submit */}
           <Grid item xs={12}>
             {/* ทุกๆตัวอักษรควรชิดกัน */}
-            <Button  type="submit" variant="contained">Submit</Button>
+            <Button  type="submit" variant="contained">Update</Button>
           </Grid>
           
         </Grid>
